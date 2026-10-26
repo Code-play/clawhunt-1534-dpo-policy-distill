@@ -1,0 +1,17 @@
+# 运行期工作数据：含脱敏映射摘要等中间产物，不交付、不进仓库
+var/
+
+# Python 缓存与字节码
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# 临时文件
+*.tmp
+*~
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.idea/
+.vscode/

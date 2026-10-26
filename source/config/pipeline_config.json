@@ -1,0 +1,92 @@
+{
+  "_note": "流水线总配置。所有业务阈值都在这里，代码里不写死。修改后 demo 与回归报告会立刻反映新口径；配置写错会在加载期抛 CONFIG_INVALID（退出码 3），不会被当成业务拒绝。",
+  "pipeline_version": "dpo-policy-1.0.0",
+  "clock": {
+    "_note": "逻辑时钟：批次起点 + 步长。同一份输入跑两遍得到完全相同的时刻序列，真实墙上时间不参与业务判定。",
+    "start": "2026-10-26T00:00:00Z",
+    "tick_seconds": 30
+  },
+  "hash": {
+    "algorithm": "sha256",
+    "normalization": "NFKC + 空白折叠 + 去首尾空白"
+  },
+  "paths": {
+    "samples": "samples",
+    "out": "out",
+    "var": "var"
+  },
+  "sources": {
+    "_note": "授权登记表与许可口径。deny_licenses 里出现的许可一律拒绝，allowlist 之外的许可也一律拒绝——授权是白名单制，不是黑名单制。",
+    "registry": "source_registry.json",
+    "require_version": true,
+    "require_hash": true,
+    "require_authorization_ref": true,
+    "license_allowlist": [
+      "customer-authorized",
+      "internal-approved",
+      "cc-by-4.0",
+      "apache-2.0"
+    ],
+    "deny_licenses": [
+      "unverified",
+      "public-web",
+      "internal-review-only",
+      "unknown"
+    ]
+  },
+  "anonymize": {
+    "_note": "脱敏：规则命中即替换成稳定伪名（同一原文在同一 salt 下得到同一伪名），映射表只落在 var/ 且不发布，产物里只带映射摘要。leak_policy=block 表示残留命中即整条拒绝。",
+    "rules": "redaction_rules.json",
+    "salt": "dpo-policy-distill-2026Q4-enterprise-kb",
+    "pseudonym_len": 8,
+    "leak_policy": "block"
+  },
+  "pairs": {
+    "_note": "偏好对筛选口径。一条候选对必须同时满足：两候选来自同一已授权版本、两候选在声明轴上分差 >= required_axis_delta、其它轴反超不超过 cross_axis_tolerance、整体分差 >= min_margin、长度比 <= max_length_ratio、正文规范化后不相同、且去重键未被占用。",
+    "axes": [
+      "evidence_citation",
+      "policy_compliance",
+      "redaction_safety",
+      "instruction_following"
+    ],
+    "min_margin": 0.08,
+    "required_axis_delta": 0.1,
+    "cross_axis_tolerance": 0.15,
+    "min_score": 0.35,
+    "max_length_ratio": 2.5,
+    "min_chars": 40,
+    "max_chars": 2400,
+    "max_pairs_per_prompt": 1,
+    "dedupe": {
+      "mode": "normalized_text",
+      "min_chars": 40
+    }
+  },
+  "distill": {
+    "_note": "策略蒸馏骨架参数。适配器是「教师轨迹的格式」，新增格式必须同时进 SUPPORTED_ADAPTERS、配置与测试。",
+    "adapters": [
+      "messages",
+      "tool_trace"
+    ],
+    "targets": [
+      "sft",
+      "dpo"
+    ],
+    "min_rationale_steps": 1,
+    "max_rationale_steps": 6,
+    "min_answer_chars": 20,
+    "max_rationale_chars": 240,
+    "required_policy_refs": [
+      "R-CITE-01",
+      "R-AUTH-01"
+    ]
+  },
+  "regression": {
+    "config": "regression_config.json"
+  },
+  "permissions": {
+    "allow_pii_in_output": false,
+    "allow_external_network": false,
+    "allow_real_clock": false
+  }
+}

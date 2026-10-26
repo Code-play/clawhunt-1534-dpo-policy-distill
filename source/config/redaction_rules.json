@@ -1,0 +1,108 @@
+{
+  "_note": "脱敏规则：命中即替换成稳定伪名占位符，不保留任何原文片段。伪名形如 <email:1a2b3c4d>，由 HMAC(salt, kind|原值) 派生，同一原文永远得到同一伪名，因此偏好对仍可训练、可去重，但无法反推原值。",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "kind": "email",
+      "pattern": "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}",
+      "replacement": "<email:{digest}>",
+      "flags": "i",
+      "description": "邮箱地址"
+    },
+    {
+      "kind": "phone_cn",
+      "pattern": "(?<!\\d)1[3-9]\\d{9}(?!\\d)",
+      "replacement": "<phone:{digest}>",
+      "flags": "",
+      "description": "中国大陆手机号"
+    },
+    {
+      "kind": "id_card",
+      "pattern": "(?<!\\d)[1-9]\\d{5}(?:19|20)\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\\d|3[01])\\d{3}[0-9Xx](?!\\d)",
+      "replacement": "<id:{digest}>",
+      "flags": "",
+      "description": "18 位居民身份证号"
+    },
+    {
+      "kind": "bank_card",
+      "pattern": "(?<!\\d)(?:62|4\\d|5[1-5])\\d{14,17}(?!\\d)",
+      "replacement": "<card:{digest}>",
+      "flags": "",
+      "description": "银行卡号（银联/威士/万事达前缀）"
+    },
+    {
+      "kind": "ipv4",
+      "pattern": "(?<!\\d)(?:\\d{1,3}\\.){3}\\d{1,3}(?!\\d)",
+      "replacement": "<ip:{digest}>",
+      "flags": "",
+      "description": "IPv4 地址"
+    },
+    {
+      "kind": "token",
+      "pattern": "(?:sk|pk|ghp|gho|xoxb|cph)_[A-Za-z0-9]{12,}",
+      "replacement": "<token:{digest}>",
+      "flags": "i",
+      "description": "API key / 令牌前缀"
+    },
+    {
+      "kind": "credential_url",
+      "pattern": "[a-z][a-z0-9+.-]*://[^\\s/]+:[^\\s/@]+@[^\\s]+",
+      "replacement": "<credential-url:{digest}>",
+      "flags": "i",
+      "description": "带账号密码的 URL"
+    },
+    {
+      "kind": "person_name",
+      "pattern": "(?:张三|李四|王五|赵六|陈七|周八|吴九|郑十|孙小雨|林知远|何清越|邵文博)",
+      "replacement": "<person:{digest}>",
+      "flags": "",
+      "description": "样例中出现的联系人姓名（演示用名单，生产环境接 NER 或员工名册）"
+    },
+    {
+      "kind": "org_name",
+      "pattern": "(?:华辰精密制造有限公司|华辰精密|浙江华辰|宁波远洋物流有限公司|宁波远洋)",
+      "replacement": "<org:{digest}>",
+      "flags": "",
+      "description": "样例中出现的客户机构名（演示用名单）"
+    }
+  ],
+  "leak_scan": {
+    "_note": "脱敏后的自检：这些模式在产物里出现即视为泄漏。policy=block 时整条记录被拒绝，不进产物。",
+    "patterns": [
+      {
+        "kind": "email",
+        "pattern": "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+      },
+      {
+        "kind": "phone_cn",
+        "pattern": "(?<!\\d)1[3-9]\\d{9}(?!\\d)"
+      },
+      {
+        "kind": "id_card",
+        "pattern": "(?<!\\d)[1-9]\\d{5}(?:19|20)\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\\d|3[01])\\d{3}[0-9Xx](?!\\d)"
+      },
+      {
+        "kind": "bank_card",
+        "pattern": "(?<!\\d)(?:62|4\\d|5[1-5])\\d{14,17}(?!\\d)"
+      },
+      {
+        "kind": "token",
+        "pattern": "(?:sk|pk|ghp|gho|xoxb|cph)_[A-Za-z0-9]{12,}"
+      },
+      {
+        "kind": "raw_person_name",
+        "pattern": "(?:张三|李四|王五|赵六|陈七|周八|吴九|郑十|孙小雨|林知远|何清越|邵文博)"
+      },
+      {
+        "kind": "raw_org_name",
+        "pattern": "(?:华辰精密制造有限公司|华辰精密|浙江华辰|宁波远洋物流有限公司|宁波远洋)"
+      },
+      {
+        "_note": "故意留一条「脱敏规则未覆盖、但残留扫描认得」的模式：它用来证明第二道防线真的存在（整条记录被拒，不是打码放行）。",
+        "kind": "wechat_id",
+        "pattern": "wxid_[A-Za-z0-9_]{6,}"
+      }
+    ],
+    "policy": "block"
+  }
+}

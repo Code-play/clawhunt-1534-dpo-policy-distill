@@ -1,0 +1,62 @@
+{
+  "_note": "策略规则库。偏好对、蒸馏三元组与离线回归都只按 rule_id 引用本文件，不复制规则原文；规则内容改一次，三处产物与报告同步变。每条规则声明由谁执行（enforcement）：gate=流水线闸门直接拦，offline-regression=由策略引擎在离线回归里执行，documentation=只做说明。",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "rule_id": "R-CITE-01",
+      "title": "引用可回溯",
+      "statement": "任何事实性结论必须带来源标记 [S:<source_id>@<version>]，且被引用的来源必须在授权登记表内。",
+      "enforcement": "offline-regression",
+      "applies_to": ["pair", "triple", "regression"]
+    },
+    {
+      "rule_id": "R-AUTH-01",
+      "title": "未授权来源拒绝",
+      "statement": "来源不在授权登记表内、版本不符、内容指纹不符或许可不在允许清单内时，不得进入偏好对或蒸馏产物；对客回答必须拒答并给出稳定原因码。",
+      "enforcement": "gate",
+      "applies_to": ["pair", "triple", "regression"]
+    },
+    {
+      "rule_id": "R-PII-01",
+      "title": "脱敏前置",
+      "statement": "进入训练与蒸馏的数据必须先过脱敏闸门；产物里出现任何残留个人信息模式时整条记录拒绝，而不是只打码后放行。",
+      "enforcement": "gate",
+      "applies_to": ["pair", "triple", "regression"]
+    },
+    {
+      "rule_id": "R-REFUSE-02",
+      "title": "缺证不猜",
+      "statement": "授权来源里找不到依据时输出 abstain，并列出已经检索过的授权来源；不得用模型自身的记忆补全事实。",
+      "enforcement": "offline-regression",
+      "applies_to": ["triple", "regression"]
+    },
+    {
+      "rule_id": "R-VER-01",
+      "title": "版本与指纹锁定",
+      "statement": "每条偏好对与蒸馏三元组都必须绑定来源版本、许可与内容指纹；版本漂移的记录在回归里算失败，不得静默通过。",
+      "enforcement": "gate",
+      "applies_to": ["pair", "triple"]
+    },
+    {
+      "rule_id": "R-PREF-01",
+      "title": "偏好对必须可解释",
+      "statement": "每条偏好对必须声明唯一决定性对比轴与该轴分差；其它轴上的反超不得超过容差，否则该对被丢弃。",
+      "enforcement": "gate",
+      "applies_to": ["pair"]
+    },
+    {
+      "rule_id": "R-DISTILL-02",
+      "title": "蒸馏依据可读",
+      "statement": "每条蒸馏三元组必须携带至少一条依据（rationale）并声明目标类型（sft/dpo）；依据只保留脱敏后的策略要点，不落原始思维链全文。",
+      "enforcement": "gate",
+      "applies_to": ["triple"]
+    },
+    {
+      "rule_id": "R-REG-01",
+      "title": "离线回归闸门",
+      "statement": "策略引擎必须先在离线回归集上跑满闸门阈值（通过率下限 + 零回退）才允许进入交付；闸门不通过时退出码为 2 并打印未通过用例。",
+      "enforcement": "offline-regression",
+      "applies_to": ["regression"]
+    }
+  ]
+}

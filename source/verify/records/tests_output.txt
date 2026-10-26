@@ -1,0 +1,165 @@
+[runner] == test_core.py ==
+  ok   canonical_json 键排序且不转义中文
+  ok   sha256/content_hash 与已知向量一致
+  ok   normalize_text 做 NFKC 与空白折叠
+  ok   pair_id/triple_id 由内容派生且唯一
+  ok   来源指纹覆盖内容不含授权元数据
+  ok   GenerationRecord 往返一致且缺轴按 0 处理
+  ok   target/action 枚举守卫拒绝非法值
+  ok   逻辑时钟推进确定且可重置
+  ok   逻辑时钟拒绝非法起点/步长
+  ok   时刻解析/格式化只接受 UTC 定长格式
+  ok   错误码分组决定退出码 2/3
+  ok   配置加载后的关键口径
+  ok   许可白名单：允许/拒绝/未知三态
+  ok   登记表索引与授权编号齐备
+  ok   缺配置文件 -> CONFIG_MISSING
+  ok   坏 JSON -> CONFIG_INVALID
+  ok   许可允许/禁止清单重叠 -> CONFIG_INVALID
+  ok   脱敏 salt 过短 -> CONFIG_INVALID
+  ok   未支持的对比轴 -> CONFIG_INVALID
+  ok   未实现的轨迹适配器 -> CONFIG_INVALID
+  ok   不可编译的脱敏正则 -> CONFIG_INVALID
+  ok   登记表许可不在白名单 -> CONFIG_INVALID
+  ok   两处脱敏策略不一致 -> CONFIG_INVALID
+  ok   登记表主键重复 -> CONFIG_INVALID
+  ok   蒸馏引用不存在的规则 -> CONFIG_INVALID
+  ok   JSONL 往返且不写 CRLF
+  ok   坏行/缺文件 -> STORE_INTEGRITY
+  ok   JsonlStore 只允许 flush 一次
+  ok   write_json 可读且 summarize_files 给相对路径
+  ok   合法偏好对通过字段校验
+  ok   偏好对字段校验的负样例逐项命中
+  ok   合法蒸馏三元组通过字段校验
+  ok   三元组校验的负样例逐项命中
+  ok   回归用例与报告结构校验
+  ok   整批主键重复被识别
+  ok   未知记录类型被拒绝
+  ok   模板填充后无残留占位符
+  ok   回归报告按模板渲染且无残留占位符
+  ok   产物报告不含 emoji（若已生成）
+  ok   未知子命令/缺子命令 -> USAGE_ERROR
+配置校验通过：pipeline=dpo-policy-1.0.0 | clock=2026-10-26T00:00:00Z/+30s | sources=6 registered / allowlist=4 | pairs: axis_delta>=0.1 margin>=0.08 ratio<=2.5 | distill: adapters=messages,tool_trace targets=sft,dpo | regression: min_pass_rate>=0.9 max_regressions=0 | policy_rules=8
+登记表来源: SRC-KB-001@v3, SRC-KB-002@v2, SRC-KB-003@v1, SRC-KB-004@v5, SRC-KB-005@v1, SRC-LEGAL-006@v2
+策略规则: R-CITE-01, R-AUTH-01, R-PII-01, R-REFUSE-02, R-VER-01, R-PREF-01, R-DISTILL-02, R-REG-01
+脱敏规则: email, phone_cn, id_card, bank_card, ipv4, token, credential_url, person_name, org_name
+残留检测: email, phone_cn, id_card, bank_card, token, raw_person_name, raw_org_name, wechat_id
+  ok   validate-config 退出码 0
+{"code": "USAGE_ERROR", "detail": null, "message": "用法错误: argument command: invalid choice: 'nope' (choose from validate-config, sources, pairs, distill, regress, demo)", "record_id": null}
+  ok   用法错误退出码 3
+{"code": "CONFIG_MISSING", "detail": "[Errno 2] No such file or directory: 'C:\\\\Users\\\\18777\\\\AppData\\\\Local\\\\Temp\\\\tmpe_pi_g0n\\\\empty\\\\config\\\\pipeline_config.json'", "message": "缺少配置文件: pipeline_config.json", "record_id": null}
+  ok   不存在的根目录 -> 退出码 3
+  ok   样例来源与登记表指纹一致
+  ok   未授权来源不在登记表内
+  ok   候选生成样例结构合法
+  ok   回归用例样例结构合法
+  ok   回归报告模板存在且带占位符
+  ok   配置可派生（产物目录可覆盖）
+[core]
+49/49 tests passed
+[runner] == test_pairs.py ==
+  ok   test_assert_clean_after_redact_is_clean
+  ok   test_assert_clean_block_passes_clean_text
+  ok   test_assert_clean_block_raises_without_raw_text
+  ok   test_assert_clean_warn_returns_hits
+  ok   test_binding_for_default_version
+  ok   test_binding_for_denied_license
+  ok   test_binding_for_explicit_version
+  ok   test_binding_for_natural_max_version
+  ok   test_binding_for_unknown_source
+  ok   test_binding_for_unknown_version
+  ok   test_entries_sorted_and_immutable
+  ok   test_mapping_digest_changes_with_content
+  ok   test_mapping_digest_is_order_independent
+  ok   test_mapping_stores_only_kind_and_pseudonym
+  ok   test_overlap_long_match_beats_inner_match
+  ok   test_overlap_prefers_longest_then_rule_order
+  ok   test_pairs_accepts_mapping_input
+  ok   test_pairs_axis_counts_cover_all_axes
+  ok   test_pairs_bad_record_does_not_stop_batch
+  ok   test_pairs_candidate_order_does_not_matter
+  ok   test_pairs_cap_one_pair_per_prompt
+  ok   test_pairs_cap_two_when_configured
+  ok   test_pairs_chosen_can_be_second_candidate
+  ok   test_pairs_contrast_axis_deltas
+  ok   test_pairs_created_at_follows_logical_clock
+  ok   test_pairs_deterministic_across_two_runs
+  ok   test_pairs_empty_input
+  ok   test_pairs_filter_counts_are_consistent
+  ok   test_pairs_fixture_sizes_fit_config
+  ok   test_pairs_missing_pairs_config_raises
+  ok   test_pairs_normal_emits_one_pair
+  ok   test_pairs_output_contains_no_pii
+  ok   test_pairs_prompt_is_redacted
+  ok   test_pairs_reject_anon_leak
+  ok   test_pairs_reject_axis_not_decisive
+  ok   test_pairs_reject_cross_axis_reversal
+  ok   test_pairs_reject_duplicate_key
+  ok   test_pairs_reject_identical_text
+  ok   test_pairs_reject_length_imbalance
+  ok   test_pairs_reject_length_out_of_bounds
+  ok   test_pairs_reject_low_margin
+  ok   test_pairs_reject_no_candidate
+  ok   test_pairs_reject_schema_bad_source_ref
+  ok   test_pairs_reject_schema_duplicate_candidate_id
+  ok   test_pairs_reject_schema_empty_prompt
+  ok   test_pairs_reject_schema_empty_prompt_id
+  ok   test_pairs_reject_schema_missing_axis
+  ok   test_pairs_reject_schema_score_out_of_range
+  ok   test_pairs_reject_score_too_low
+  ok   test_pairs_reject_unauthorized_license
+  ok   test_pairs_reject_unknown_source
+  ok   test_pairs_reject_version_mismatch
+  ok   test_pairs_rejected_items_carry_no_raw_text
+  ok   test_pairs_rejects_unknown_input_type
+  ok   test_pairs_sorted_by_pair_id
+  ok   test_pairs_stats_shape
+  ok   test_pairs_tie_break_follows_axis_declaration_order
+  ok   test_pseudonym_format
+  ok   test_pseudonym_is_stable_and_distinct
+  ok   test_redact_bank_card
+  ok   test_redact_credential_url
+  ok   test_redact_email
+  ok   test_redact_id_card
+  ok   test_redact_ipv4
+  ok   test_redact_mapping_deep_structure
+  ok   test_redact_mapping_handles_non_string_leaves
+  ok   test_redact_mapping_redacts_keys_and_keeps_input
+  ok   test_redact_org_name
+  ok   test_redact_person_name
+  ok   test_redact_phone
+  ok   test_redact_text_matches_pseudonym_api
+  ok   test_redact_text_multiple_hits_offsets
+  ok   test_redact_text_rejects_non_string
+  ok   test_redact_text_without_hits_returns_input
+  ok   test_redact_token
+  ok   test_resolve_blank_version
+  ok   test_resolve_corpus_accepts_authorized_samples
+  ok   test_resolve_corpus_accepts_mappings_and_is_deterministic
+  ok   test_resolve_corpus_detects_denied_license
+  ok   test_resolve_corpus_detects_license_drift
+  ok   test_resolve_corpus_detects_missing_authorization_ref
+  ok   test_resolve_corpus_detects_tampered_text
+  ok   test_resolve_corpus_rejections_carry_no_raw_text
+  ok   test_resolve_corpus_rejects_unauthorized_samples
+  ok   test_resolve_hash_match_is_case_insensitive
+  ok   test_resolve_hash_mismatch
+  ok   test_resolve_license_denied
+  ok   test_resolve_missing_authorization_ref
+  ok   test_resolve_missing_source_id
+  ok   test_resolve_missing_version
+  ok   test_resolve_non_mapping_ref
+  ok   test_resolve_ok
+  ok   test_resolve_unknown_source
+  ok   test_resolve_version_mismatch
+  ok   test_scan_clean_text
+  ok   test_scan_reports_sorted_hits_with_empty_digest
+  ok   test_stats_counts
+[test_pairs]
+97/97 tests passed
+[runner] == test_distill.py ==
+[modules] provenance=real anonymize=real
+[test_distill]
+90/90 tests passed
+[runner] 失败文件: 无
+TOTAL: 236/236 tests passed

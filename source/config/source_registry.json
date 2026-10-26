@@ -1,0 +1,96 @@
+{
+  "_note": "授权登记表（来源 -> 版本 -> 许可 -> 内容指纹 -> 授权编号）。授权是白名单制：不在本表内的来源、版本不符、指纹不符或许可不在 allowlist 内的，一律在闸门处被拒绝并落下稳定错误码。指纹口径 = sha256(canonical({source_id, version, title, text}))，不含 license 等授权元数据，因此只修订许可不会触发指纹漂移。",
+  "version": "1.0.0",
+  "sources": [
+    {
+      "source_id": "SRC-KB-001",
+      "version": "v3",
+      "title": "客户工单分级与升级规范",
+      "license": "customer-authorized",
+      "content_sha256": "975ae4146e599e7cc2c0db2b35a08215be41b61b4aec46173e5f03af73cbf857",
+      "authorization_ref": "AUTH-2026-0041",
+      "effective_at": "2026-08-15",
+      "tags": [
+        "policy",
+        "tickets"
+      ],
+      "retention_days": 365,
+      "notes": "客户工单分级与升级规范，客户书面授权可用于模型训练与演示。"
+    },
+    {
+      "source_id": "SRC-KB-002",
+      "version": "v2",
+      "title": "退款与补偿审批口径",
+      "license": "internal-approved",
+      "content_sha256": "7b84eeb8ddf1c355c63d43e6b81b022720911b743e74750dcf21efcb14bfc0c6",
+      "authorization_ref": "AUTH-2026-0042",
+      "effective_at": "2026-08-15",
+      "tags": [
+        "policy",
+        "billing"
+      ],
+      "retention_days": 365,
+      "notes": "退款与补偿审批口径，内部批准版本。"
+    },
+    {
+      "source_id": "SRC-KB-003",
+      "version": "v1",
+      "title": "数据脱敏与外发规范",
+      "license": "customer-authorized",
+      "content_sha256": "54a0ee9ec5db2efefc2bdd0f9aaf12782a066c0fef5434a5a8a01048ad7e3083",
+      "authorization_ref": "AUTH-2026-0043",
+      "effective_at": "2026-09-01",
+      "tags": [
+        "policy",
+        "security"
+      ],
+      "retention_days": 365,
+      "notes": "数据脱敏与外发规范，客户书面授权。"
+    },
+    {
+      "source_id": "SRC-KB-004",
+      "version": "v5",
+      "title": "产品故障排查手册",
+      "license": "internal-approved",
+      "content_sha256": "dc13f30df0168abce7397105b033cb008a6192f6c895ccd4fe6ec7f267607a46",
+      "authorization_ref": "AUTH-2026-0044",
+      "effective_at": "2026-09-10",
+      "tags": [
+        "runbook",
+        "ops"
+      ],
+      "retention_days": 365,
+      "notes": "故障排查手册，内部批准版本。"
+    },
+    {
+      "source_id": "SRC-KB-005",
+      "version": "v1",
+      "title": "客服话术与合规禁区",
+      "license": "customer-authorized",
+      "content_sha256": "89fbca27c801b30b5a91fd5fbf4b34b58319c2749a2a2a35d00d66abb08c6403",
+      "authorization_ref": "AUTH-2026-0045",
+      "effective_at": "2026-09-20",
+      "tags": [
+        "policy",
+        "cx"
+      ],
+      "retention_days": 365,
+      "notes": "客服话术与合规禁区，客户书面授权。"
+    },
+    {
+      "source_id": "SRC-LEGAL-006",
+      "version": "v2",
+      "title": "合同交付条款摘要",
+      "license": "internal-approved",
+      "content_sha256": "ca109be7eb6ef15bb640aa13159bf57fbca1b5d92cc63f00367ec8009d380b75",
+      "authorization_ref": "AUTH-2026-0046",
+      "effective_at": "2026-09-28",
+      "tags": [
+        "policy",
+        "legal"
+      ],
+      "retention_days": 365,
+      "notes": "合同交付条款摘要，法务批准版本。"
+    }
+  ]
+}

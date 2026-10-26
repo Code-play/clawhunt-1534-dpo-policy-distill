@@ -1,0 +1,203 @@
+{
+ "anonymization": {
+  "leak_policy": "block",
+  "mapping_digest": "8e864f9fb5a76705fbaea44dbdf0fdadc8dc9e4656b82730e69c9a4564c48f06",
+  "mapping_size": 3
+ },
+ "artifacts": [
+  {
+   "bytes": 8950,
+   "path": "out/anonymized_samples.jsonl"
+  },
+  {
+   "bytes": 1509,
+   "path": "out/demo.log"
+  },
+  {
+   "bytes": 11423,
+   "path": "out/distill_triples.jsonl"
+  },
+  {
+   "bytes": 5166,
+   "path": "out/pair_audit.md"
+  },
+  {
+   "bytes": 3361,
+   "path": "out/policy_card.md"
+  },
+  {
+   "bytes": 14375,
+   "path": "out/preference_pairs.jsonl"
+  },
+  {
+   "bytes": 4990,
+   "path": "out/regression_metrics.json"
+  },
+  {
+   "bytes": 2788,
+   "path": "out/regression_report.md"
+  }
+ ],
+ "config_spec": "pipeline=dpo-policy-1.0.0 | clock=2026-10-26T00:00:00Z/+30s | sources=6 registered / allowlist=4 | pairs: axis_delta>=0.1 margin>=0.08 ratio<=2.5 | distill: adapters=messages,tool_trace targets=sft,dpo | regression: min_pass_rate>=0.9 max_regressions=0 | policy_rules=8",
+ "controls": {
+  "hash_mismatch": {
+   "count": 1,
+   "expected": [
+    "SOURCE_HASH_MISMATCH"
+   ],
+   "observed": [
+    "SOURCE_HASH_MISMATCH"
+   ],
+   "ok": true
+  },
+  "invalid_traces": {
+   "count": 3,
+   "expected": [
+    "TRACE_INVALID",
+    "TRACE_ADAPTER_INVALID",
+    "DISTILL_SCHEMA_INVALID"
+   ],
+   "observed": [
+    "DISTILL_SCHEMA_INVALID",
+    "TRACE_ADAPTER_INVALID",
+    "TRACE_INVALID"
+   ],
+   "ok": true
+  },
+  "residual_pii": {
+   "count": 1,
+   "expected": [
+    "ANON_LEAK"
+   ],
+   "observed": [
+    "ANON_LEAK"
+   ],
+   "ok": true
+  },
+  "unauthorized_generations": {
+   "count": 1,
+   "expected": [
+    "SOURCE_UNKNOWN",
+    "SOURCE_VERSION_MISMATCH",
+    "SOURCE_UNAUTHORIZED"
+   ],
+   "observed": [
+    "SOURCE_UNKNOWN"
+   ],
+   "ok": true
+  },
+  "version_mismatch": {
+   "count": 1,
+   "expected": [
+    "SOURCE_VERSION_MISMATCH"
+   ],
+   "observed": [
+    "SOURCE_VERSION_MISMATCH"
+   ],
+   "ok": true
+  }
+ },
+ "counts": {
+  "generations": 16,
+  "pairs": 8,
+  "policy_cards": 5,
+  "regression_cases": 16,
+  "regression_passed": 16,
+  "sources_accepted": 6,
+  "sources_rejected": 0,
+  "triples": 11,
+  "unauthorized_sources_rejected": 2
+ },
+ "digests": {
+  "out/anonymized_samples.jsonl": "f8a71b7a4f97f699401ae9f08930787a3ad6b7ef4afec7b988e8250f64d02a86",
+  "out/demo.log": "6912d0a95ea0e047958bd44a521caee78ae0af55c4e64129409f3b4d929698ec",
+  "out/distill_triples.jsonl": "36c827950b459cb5824b010692ab4d498f71e9539d2080c32a86d7d0de2aa43e",
+  "out/pair_audit.md": "f9878fefc2b1f801f920deeb10e28f398f50f97c12bafcb77bf4e93553608689",
+  "out/policy_card.md": "f30acab15d2b43b84a1ee5271aa50cc4f00ad058d1c3a46c291c71256c838e50",
+  "out/preference_pairs.jsonl": "4d4238646d9effe399b15724c16e2c1495bb0630ab216712156fedf3351af222",
+  "out/regression_metrics.json": "6c9218ac8444acdde7fb7dd21e5595039a63b39d3378899cbfef764624fec96f",
+  "out/regression_report.md": "1130f1c687345bb414ec8619a493511823c21a2683db8e8ff7eb997a0ed3ee31"
+ },
+ "distill_stats": {
+  "accepted": 11,
+  "adapters": {
+   "messages": 6,
+   "tool_trace": 5
+  },
+  "duplicates": 0,
+  "missing_required_refs": [],
+  "policy_rules": {
+   "R-AUTH-01": 11,
+   "R-CITE-01": 11,
+   "R-PII-01": 2,
+   "R-REFUSE-02": 3,
+   "R-VER-01": 2
+  },
+  "rationale_steps_avg": 2.0909,
+  "rejected": 0,
+  "rejected_by_reason": {},
+  "targets": {
+   "dpo": 4,
+   "sft": 7
+  },
+  "traces": 11
+ },
+ "generated_at": "2026-10-26T00:10:00Z",
+ "pairs_stats": {
+  "avg_axis_margin": 0.5125,
+  "avg_score_margin": 0.42625,
+  "axes": {
+   "evidence_citation": 7,
+   "instruction_following": 0,
+   "policy_compliance": 1,
+   "redaction_safety": 0
+  },
+  "candidates": 40,
+  "duplicates": 1,
+  "emitted": 8,
+  "filters": {
+   "PAIR_AXIS_NOT_DECISIVE": 1,
+   "PAIR_CROSS_AXIS_REVERSAL": 1,
+   "PAIR_DUPLICATE": 1,
+   "PAIR_IDENTICAL_TEXT": 1,
+   "PAIR_LENGTH_IMBALANCE": 1,
+   "PAIR_LOW_MARGIN": 1,
+   "PAIR_NO_CANDIDATE": 1,
+   "PAIR_SCHEMA_INVALID": 1,
+   "PAIR_SCORE_TOO_LOW": 1
+  },
+  "generations": 16,
+  "rejected_records": 2
+ },
+ "pipeline_version": "dpo-policy-1.0.0",
+ "regression_gate": {
+  "failed_case_ids": [],
+  "max_regressions": 0,
+  "min_pass_rate": 0.9,
+  "ok": true,
+  "pass_rate": 1.0,
+  "regression_count": 0
+ },
+ "regression_metrics": {
+  "abstain_cases": 1,
+  "by_action": {
+   "abstain": 1,
+   "answer_with_citation": 13,
+   "refuse_unauthorized": 2
+  },
+  "by_tag": {
+   "missing_source_abstain": 1,
+   "multi_source": 3,
+   "policy_citation": 12,
+   "redaction": 1,
+   "unauthorized_refusal": 2
+  },
+  "cases": 16,
+  "citation_coverage": 1.0,
+  "failed": 0,
+  "pass_rate": 1.0,
+  "passed": 16,
+  "unauthorized_cases": 2,
+  "violations": 0
+ }
+}

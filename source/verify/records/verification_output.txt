@@ -1,0 +1,146 @@
+==============================================================================
+订单 #1534 交付物独立验收
+==============================================================================
+[PASS] A 完整性 必备文件 SOLUTION.md
+[PASS] A 完整性 必备文件 README.md
+[PASS] A 完整性 必备文件 DELIVERY.md
+[PASS] A 完整性 必备文件 .gitignore
+[PASS] A 完整性 配置 config/pipeline_config.json
+[PASS] A 完整性 配置 config/source_registry.json
+[PASS] A 完整性 配置 config/redaction_rules.json
+[PASS] A 完整性 配置 config/policy_rules.json
+[PASS] A 完整性 配置 config/regression_config.json
+[PASS] A 完整性 配置 config/report_templates/regression_report.md.tpl
+[PASS] A 完整性 样例 samples/sources.jsonl  (6/6 条)
+[PASS] A 完整性 样例 samples/sources_unauthorized.jsonl  (2/2 条)
+[PASS] A 完整性 样例 samples/generations.jsonl  (16/16 条)
+[PASS] A 完整性 样例 samples/generations_unauthorized.jsonl  (3/3 条)
+[PASS] A 完整性 样例 samples/traces_messages.jsonl  (6/6 条)
+[PASS] A 完整性 样例 samples/traces_tool.jsonl  (5/5 条)
+[PASS] A 完整性 样例 samples/traces_invalid.jsonl  (4/4 条)
+[PASS] A 完整性 样例 samples/golden_cases.jsonl  (16/16 条)
+[PASS] A 完整性 包内模块齐备  (11 个模块)
+[PASS] A 完整性 回归报告模板带占位符
+[PASS] A 完整性 SOLUTION 保留 REPO_LINK_HERE
+[PASS] A 完整性 SOLUTION 保留 ZIP_LINK_HERE
+[PASS] A 完整性 SOLUTION 含「仓库地址：」
+[PASS] A 完整性 SOLUTION 含「打包下载：」
+[PASS] A 完整性 SOLUTION 注入后 <= 10000 字符  (8964 字符)
+[PASS] A 完整性 SOLUTION 注入后 >= 8000 字符  (8964 字符)
+[PASS] B 配置 pipeline 版本  (dpo-policy-1.0.0)
+[PASS] B 配置 对比轴 4 个  (evidence_citation,policy_compliance,redaction_safety,instruction_following)
+[PASS] B 配置 适配器 2 个
+[PASS] B 配置 登记表 6 条
+[PASS] B 配置 策略规则 8 条
+[PASS] B 配置 残留检测模式 >= 7  (8)
+[PASS] B 配置 许可白名单/黑名单不重叠
+[PASS] B 配置 配置口径摘要
+[PASS] B 配置 语料指纹与登记表一致  (6 条)
+[PASS] B 配置 pipeline_config.json 可解析
+[PASS] B 配置 source_registry.json 可解析
+[PASS] B 配置 redaction_rules.json 可解析
+[PASS] B 配置 policy_rules.json 可解析
+[PASS] B 配置 regression_config.json 可解析
+[PASS] C 测试 test_runner 退出码 0  (exit=0)
+[PASS] C 测试 测试汇总行可解析
+[PASS] C 测试 全部测试通过  (236/236)
+[PASS] C 测试 用例数 >= 120  (236 条)
+[PASS] D demo demo 退出码 0  (exit=0)
+[PASS] D demo 产物 9 份齐备  (9/9)
+[PASS] D demo 工作数据 8 份齐备  (8/8)
+[PASS] D demo 偏好对数量 8  (8)
+[PASS] D demo 三元组数量 11  (11)
+[PASS] D demo 回归 16 条全过  (16/16)
+[PASS] D demo 回归闸门通过
+[PASS] D demo 负向对照全部拦截  (['hash_mismatch', 'invalid_traces', 'residual_pii', 'unauthorized_generations', 'version_mismatch'])
+[PASS] D demo 产物清单 8 条（清单不含自身）  (8)
+[PASS] D demo 产物摘要 8 条  (8)
+[PASS] D demo 清单字节数与磁盘一致
+[PASS] D demo 配置口径写进清单
+[PASS] D demo 偏好对结构校验
+[PASS] D demo 偏好对条数与清单一致
+[PASS] D demo 偏好对全部标记脱敏
+[PASS] D demo 偏好对来源均在登记表内
+[PASS] D demo 每条偏好对决定性分差达标
+[PASS] D demo 三元组结构校验
+[PASS] D demo SFT/DPO 两类目标都有  (['dpo', 'sft'])
+[PASS] D demo 两种适配器都被用到  (['messages', 'tool_trace'])
+[PASS] D demo 回归指标通过率 1.0  (1.0)
+[PASS] D demo 回归报告结构合法
+[PASS] D demo 无回退  ([])
+[PASS] D demo 修掉两条基线失败用例  (['CASE-05', 'CASE-09'])
+[PASS] E 确定性 第二次 demo 退出码 0  (exit=0)
+[PASS] E 确定性 两次运行产物逐字节相同  (10 份)
+[PASS] E 确定性 两次运行工作数据相同  (8 份)
+[PASS] F 负向 未知来源 -> SOURCE_UNKNOWN
+[PASS] F 负向 版本漂移 -> SOURCE_VERSION_MISMATCH
+[PASS] F 负向 指纹漂移 -> SOURCE_HASH_MISMATCH
+[PASS] F 负向 未授权语料全部被拒  (2/2)
+[PASS] F 负向 未授权拒绝码可枚举
+[PASS] F 负向 未授权候选生成 0 对
+[PASS] F 负向 未授权候选生成有拒绝记录  (3)
+[PASS] F 负向 残留标识 -> ANON_LEAK  ({'ANON_LEAK': 1})
+[PASS] F 负向 坏轨迹 0 三元组
+[PASS] F 负向 坏轨迹 4 条都被拒  (4)
+[PASS] F 负向 坏引擎（无引用）时回归闸门不通过
+[PASS] F 负向 闸门不通过时报告仍完整
+[PASS] F 负向 全量未授权样例 -> 退出码 2  (exit=2)
+[PASS] F 负向 被拒时不写偏好对产物
+[PASS] F 负向 被拒时打印稳定错误码  ({"code": "PAIR_NO_CANDIDATE", "detail": null, "message": "本次没有产出任何偏好对（检查样例与阈值）", "record_id": null})
+[PASS] F 负向 缺配置 -> 退出码 3  (exit=3)
+[PASS] F 负向 缺配置错误码 CONFIG_MISSING
+[PASS] G 匿名化 产物无残留个人信息模式  (扫描 8 份文件)
+[PASS] G 匿名化 产物不含明文手机号
+[PASS] G 匿名化 产物不含明文邮箱
+[PASS] G 匿名化 产物不含明文姓名
+[PASS] G 匿名化 产物不含明文机构名
+[PASS] G 匿名化 产物不含明文机构名
+[PASS] G 匿名化 产物不含明文姓名
+[PASS] G 匿名化 产物出现稳定伪名  (伪名占位符存在)
+[PASS] G 匿名化 匿名偏好样例 8 条  (8)
+[PASS] G 匿名化 匿名样例全部标记脱敏
+[PASS] G 匿名化 匿名样例无明文 PII
+[PASS] G 匿名化 salt 不出现在产物里
+[PASS] G 匿名化 salt 只随配置交付（可复跑）
+[PASS] G 匿名化 映射数据只留摘要  (['_note', 'mapping_digest', 'mapping_size', 'policy', 'pseudonym_len'])
+[PASS] G 匿名化 映射摘要为 64 位 hex
+[PASS] G 匿名化 映射条数为正  (3)
+[PASS] H 报告 回归报告无残留占位符
+[PASS] H 报告 回归报告写明闸门通过
+[PASS] H 报告 回归报告通过率 100%
+[PASS] H 报告 回归报告列出 16 条用例  (16)
+[PASS] H 报告 回归报告带基线对比
+[PASS] H 报告 回归报告说明复跑方式
+[PASS] H 报告 偏好对审计含漏斗
+[PASS] H 报告 偏好对审计列出拦截码
+[PASS] H 报告 偏好对审计列出授权编号
+[PASS] H 报告 偏好对审计含匿名化摘要
+[PASS] H 报告 偏好对审计无残留占位符
+[PASS] H 报告 策略卡报告含统计
+[PASS] H 报告 策略卡至少 4 张  (10)
+[PASS] H 报告 策略卡含来源与版本
+[PASS] H 报告 策略卡无残留占位符
+[PASS] H 报告 demo 日志六步齐备
+[PASS] H 报告 demo 日志列出产物
+[PASS] I 样例 样例自检退出码 0  (自检通过：授权/结构/闸门/回归四项一致)
+[PASS] I 样例 重新生成退出码 0  (exit=0)
+[PASS] I 样例 重新生成幂等（逐字节相同）  (8 份样例)
+[PASS] J 卫生 无 __pycache__  (0 处)
+[PASS] J 卫生 无 .pyc 文件
+[PASS] J 卫生 文件名全 ASCII  (0 个)
+[PASS] J 卫生 文本文件无 emoji  (58 份文件)
+[PASS] J 卫生 无真实时钟调用  ([])
+[PASS] J 卫生 无网络模块引用  ([])
+[PASS] J 卫生 .gitignore 覆盖产物
+
+==============================================================================
+共执行命令 7 条：
+  - python tests/test_runner.py -> exit 0
+  - python -m dpo_policy demo（隔离目录 run1） -> exit 0
+  - python -m dpo_policy demo（隔离目录 run2） -> exit 0
+  - python -m dpo_policy demo（全部未授权来源的样例） -> exit 2
+  - python -m dpo_policy validate-config（缺配置目录） -> exit 3
+  - python scripts/gen_samples.py --check -> exit 0
+  - python scripts/gen_samples.py（重新生成） -> exit 0
+==============================================================================
+131/131 assertions passed

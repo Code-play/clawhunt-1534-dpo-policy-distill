@@ -1,0 +1,18 @@
+[demo] DPO 偏好与 Policy 蒸馏骨架 —— 全流程日志（逻辑时刻，无真实时钟）
+[demo] 配置口径: pipeline=dpo-policy-1.0.0 | clock=2026-10-26T00:00:00Z/+30s | sources=6 registered / allowlist=4 | pairs: axis_delta>=0.1 margin>=0.08 ratio<=2.5 | distill: adapters=messages,tool_trace targets=sft,dpo | regression: min_pass_rate>=0.9 max_regressions=0 | policy_rules=8
+[demo] 1/6 加载配置并校验：pipeline=dpo-policy-1.0.0，登记表 6 条
+[demo] 2/6 授权闸门：语料通过 6 条，拒绝 0 条；未授权负样例被拒 2 条
+[demo] 3/6 偏好对：输入 16 条 prompt / 40 条候选，产出 8 对，拦截 9 次
+[demo] 4/6 蒸馏：轨迹 11 条，三元组 11 条（SFT 7 / DPO 4），策略卡 5 张
+[demo] 5/6 离线回归：16 条用例，通过 16 条（1.0），闸门 通过；回退 0 条
+[demo] 6/6 负向对照：hash_mismatch=拦截；invalid_traces=拦截；residual_pii=拦截；unauthorized_generations=拦截；version_mismatch=拦截
+[demo] 匿名化：映射 3 条，摘要 8e864f9fb5a76705（映射表不交付）
+[demo] 产物 7 份（另含本日志与运行清单 pipeline_run.json）：
+[demo]   - out/anonymized_samples.jsonl (8950 B)
+[demo]   - out/distill_triples.jsonl (11423 B)
+[demo]   - out/pair_audit.md (5166 B)
+[demo]   - out/policy_card.md (3361 B)
+[demo]   - out/preference_pairs.jsonl (14375 B)
+[demo]   - out/regression_metrics.json (4990 B)
+[demo]   - out/regression_report.md (2788 B)
+[demo] 完成：退出码 0（闸门全过）
